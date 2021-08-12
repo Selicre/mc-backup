@@ -107,12 +107,12 @@ async fn main() -> io::Result<()> {
     println!("{:?}", r);
 
     let incr_path = &chrono::offset::Local::today().format("backups/index.%Y-%W.snar").to_string();
-    let archive_path = &chrono::offset::Local::today().format("backups/backup.%F.tar").to_string();
+    let archive_path = &chrono::offset::Local::today().format("backups/backup.%Y-%W.%F.tar").to_string();
     let folder_path = "survival";
 
     let out = tokio::process::Command::new("tar")
         .args(&[
-            "-ug", incr_path, "-f", archive_path, folder_path
+            "-cg", incr_path, "-f", archive_path, folder_path
         ])
         .output().await?;
     let r = vec![
